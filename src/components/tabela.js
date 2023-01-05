@@ -18,6 +18,8 @@ export const Tabel = () => {
   const [data, setData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [turn, setTurn] = useState(1);
   const [winningCombo, setWinningCombo] = useState(null);
+  const [draw, setDraw] = useState(null);
+  const [usedAll, setusedAll] = useState(false)
 
   const handleClick = (index) => {
     if (data[index] !== 0) {
@@ -35,36 +37,6 @@ export const Tabel = () => {
     setTurn((prev) => (prev === 1 ? 2 : 1));
   };
 
-  useEffect(() => {
-    checkWinner();
-    checkGameEnded();
-    
-  }, [data]);
-
-  const changeColorsWinner = (index) => {
-    if (winningCombo !== null){
-        if( index == winningCombo[0] || winningCombo[1] || winningCombo[2]){
-            return "red"
-        }
-        else{
-            return "#f5deb3";
-        }
-    }
-  }
-
-//   useEffect(() => {
-//     if (winningCombo) {
-//       alert(`${playerWinner} ganhou`);
-//     }
-//   }, [winningCombo]);
-
-  const checkGameEnded = () => {
-    if (data.every((item) => item !== 0 )) {
-        if (winningCombo === null) {
-            alert('jogo deu velha')
-        }
-    }
-  };
   const checkWinner = () => {
     let winner = null;
 
@@ -89,7 +61,39 @@ export const Tabel = () => {
       }
     }
   };
+
+  const changeColorsWinner = (index) => {
+    if (winningCombo !== null) {
+      if (index === winningCombo[0] || winningCombo[1] || winningCombo[2]) {
+        return "red";
+      } else {
+        return "#f5deb3";
+      }
+      
+    }
+    console.log(index);
+  };
+  
+  const checkDraw = () => {
+      if(usedAll === true && winningCombo === null){
+        setDraw("jogo deu velha");
+        alert("deu velha");
+      }
+  }
+  const checkGameEnded = () => {
+    if (data.every((item) => item !== 0)) {
+      setusedAll(true)
+    }
+  };
+
+  useEffect(() => {
+    checkWinner();
+    checkGameEnded();
+    checkDraw();
+  }, [data, winningCombo]);
+
   console.log(winningCombo);
+  console.log(draw);
   return (
     <Section>
       <div>
@@ -104,8 +108,7 @@ export const Tabel = () => {
                 handleClick(index);
               }}
               key={index}
-              style={{ backgroundColor: changeColorsWinner(index) }
-              }
+              style={{ backgroundColor: changeColorsWinner(index) }}
             >
               {element === 1 && "❌"}
               {element === 2 && "⭕"}
@@ -113,6 +116,7 @@ export const Tabel = () => {
           );
         })}
       </div>
+      <div>{draw}</div>
     </Section>
   );
 };
