@@ -19,15 +19,17 @@ export const Tabel = () => {
   const [turn, setTurn] = useState(1);
   const [winningCombo, setWinningCombo] = useState(null);
   const [draw, setDraw] = useState(null);
-  const [usedAll, setusedAll] = useState(false)
+  const [usedAll, setusedAll] = useState(false);
 
   const handleClick = (index) => {
     if (data[index] !== 0) {
       return;
     }
+
     if (winningCombo) {
       return;
     }
+
     setData((prev) => {
       const newGameData = [...prev];
       newGameData[index] = turn;
@@ -69,31 +71,31 @@ export const Tabel = () => {
       } else {
         return "#f5deb3";
       }
-      
     }
     console.log(index);
   };
-  
+
   const checkDraw = () => {
-      if(usedAll === true && winningCombo === null){
-        setDraw("jogo deu velha");
-        alert("deu velha");
-      }
-  }
+    if (usedAll === true && winningCombo === null) {
+      setDraw("jogo deu velha");
+      alert("deu velha");
+    }
+  };
   const checkGameEnded = () => {
     if (data.every((item) => item !== 0)) {
-      setusedAll(true)
+      setusedAll(true);
     }
   };
 
   useEffect(() => {
     checkWinner();
     checkGameEnded();
-    checkDraw();
-  }, [data, winningCombo]);
+  }, [data]);
 
-  console.log(winningCombo);
-  console.log(draw);
+  useEffect(()=>{
+    checkDraw()
+  },[usedAll])
+
   return (
     <Section>
       <div>
