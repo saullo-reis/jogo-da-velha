@@ -66,13 +66,13 @@ export const Tabel = () => {
 
   const changeColorsWinner = (index) => {
     if (winningCombo !== null) {
-      if (index === winningCombo[0] || winningCombo[1] || winningCombo[2]) {
-        return "red";
-      } else {
-        return "#f5deb3";
+      for(let a = 0; a <= 3; a++){
+        if(index === winningCombo[a]){
+          return "red"
+        }
       }
     }
-    console.log(index);
+    return
   };
 
   const checkDraw = () => {
@@ -86,7 +86,7 @@ export const Tabel = () => {
       setusedAll(true);
     }
   };
-
+  
   useEffect(() => {
     checkWinner();
     checkGameEnded();
