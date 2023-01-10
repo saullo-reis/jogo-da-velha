@@ -5,8 +5,8 @@ import "./App.css"
 function App() {
   return (
     <section>
-      <GlobalStyle/>
-      <Tabel/>
+      <GlobalStyle />
+      <Tabel />
     </section>
   );
 }
